@@ -1,5 +1,10 @@
 const ConcatSource = require("webpack-sources/lib/ConcatSource");
 
+function getAssetName(chunks, name) {
+  const foundChunk = chunks.find(chunk => chunk.name === name)
+  return foundChunk.files[0]
+}
+
 module.exports = class ModuleFedSingleRuntimePlugin {
   constructor(options) {
     this._options = { fileName: "remoteEntry.js", ...options };
@@ -13,8 +18,10 @@ module.exports = class ModuleFedSingleRuntimePlugin {
     compiler.hooks.emit.tap(
       "EnableSingleRunTimeForFederationPlugin",
       (compilation) => {
-        const { assets } = compilation;
-        const runtime = assets["runtime.js"];
+        const { assets, chunks, options } = compilation;
+        const runtimeChunkName = options.optimization.runtimeChunk.name()
+        const runtimeAssetName = getAssetName(chunks, runtimeChunkName)
+        const runtime = assets[runtimeAssetName];
         const remoteEntry = assets[this._options.fileName];
         const mergedSource = new ConcatSource(runtime, remoteEntry);
         assets[this._options.fileName] = mergedSource;
