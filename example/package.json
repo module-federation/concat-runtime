@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "devDependencies": {
-    "@babel/core": "7.12.10",
-    "@babel/preset-react": "7.12.10",
-    "babel-loader": "8.2.2",
+    "@babel/core": "7.18.5",
+    "@babel/preset-react": "7.17.12",
+    "babel-loader": "8.2.5",
     "html-webpack-plugin": "4.5.1",
     "serve": "11.3.2",
     "webpack": "5.14.0",
